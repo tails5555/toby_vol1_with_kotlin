@@ -13,5 +13,8 @@ class MusicTesting
             println("--${m.id}번째 노래입니다.--")
             println("${m.title} - ${m.singer} (${m.year})")
         }
-    }
 
+        var music1 = musicDAO.findById(1)
+        println("--${music1.id}번째 노래입니다.--")
+        println("${music1.title} - ${music1.singer} (${music1.year})")
+    }
