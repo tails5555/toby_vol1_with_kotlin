@@ -6,12 +6,14 @@ import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
+// 일반적으로 쓰이는 DAO 작성.
+// 책은 1.1.2번을 참고하였음.
 class MusicDAO {
     fun findAll() : List<Music> {
         var musics : MutableList<Music> = mutableListOf()
 
         Class.forName("com.mysql.jdbc.Driver").newInstance()
-        var connection : Connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "kang", "nz973g!!")
+        var connection : Connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "--DB 사용자--", "--DB 비밀번호--")
         var preparedStatement : PreparedStatement = connection.prepareStatement("SELECT * FROM music")
         var resultSet : ResultSet = preparedStatement.executeQuery()
 
@@ -35,7 +37,7 @@ class MusicDAO {
         var music : Music = Music()
 
         Class.forName("com.mysql.jdbc.Driver").newInstance()
-        var connection : Connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "kang", "nz973g!!")
+        var connection : Connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "--DB 사용자--", "--DB 비밀번호--")
         var preparedStatement : PreparedStatement = connection.prepareStatement("SELECT * FROM music WHERE id = ?")
         preparedStatement.setLong(1, id)
         var resultSet : ResultSet = preparedStatement.executeQuery()
@@ -54,5 +56,19 @@ class MusicDAO {
         return music
     }
 
+    fun create(music : Music) {
+        Class.forName("com.mysql.jdbc.Driver").newInstance()
+        var connection : Connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "--DB 사용자--", "--DB 비밀번호--")
+        var preparedStatement : PreparedStatement = connection.prepareStatement("INSERT INTO music(title, singer, genreId, year) VALUES(?, ?, ?, ?)")
 
+        preparedStatement.setString(1, music.title)
+        preparedStatement.setString(2, music.singer)
+        preparedStatement.setLong(3, music.genreId)
+        preparedStatement.setInt(4, music.year)
+
+        preparedStatement.executeUpdate()
+
+        preparedStatement.close()
+        connection.close()
+    }
 }
