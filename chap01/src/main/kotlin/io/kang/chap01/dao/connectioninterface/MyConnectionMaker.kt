@@ -8,6 +8,6 @@ import java.sql.DriverManager
 class MyConnectionMaker : ConnectionMaker {
     override fun makeConnection() : Connection? {
         Class.forName("com.mysql.jdbc.Driver").newInstance()
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "--MyConnection DB사용자--", "--MyConnection DB비밀번호--")
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/music", "kang", "nz973g!!")
     }
 }
